@@ -3,41 +3,78 @@
 GLWidget::GLWidget(QWidget *parent) :
     QGLWidget(parent)
 {
+    setFormat(QGLFormat(QGL::DoubleBuffer));
+    glDepthFunc(GL_LEQUAL);
+
     connect(&update_timer, &QTimer::timeout, this, &GLWidget::updateGL);
     update_timer.start();
+
+    points = fps = 0;
 
     VSync(true);
 }
 
 void GLWidget::initializeGL()
 {
-    glClearColor(0, 0, 0, 0);
+    qglClearColor(Qt::black);
 }
 
 void GLWidget::paintGL()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glOrtho(0, wax, way, 0, 1, 0);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    calculate_fps();
 
-    glColor3f(1,1,1);
-
-    QFont shrift("Times", 12, QFont::Bold);
-    renderText(-0.5, 0, 0, "Test, text", shrift);
+    paint_interface();
 }
 
 void GLWidget::resizeGL(int w, int h)
 {
-    glViewport(0, 0,w,h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(45, (float)w/h, 0.2,  1000.0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    gluLookAt(0,0,5, 0,0,0, 0,1,0);
+    glViewport(0, 0, (GLint)w, (GLint)h);
+
+    wax = w;
+    way = h;
 }
 
 void GLWidget::VSync(const bool enable)
 {
-    QGLFormat frmt;
+    /*QGLFormat frmt;
     frmt.setSwapInterval(enable);
-    setFormat(frmt);
+    setFormat(frmt);*/
+}
+
+void GLWidget::paint_interface()
+{
+    qglColor(Qt::white);
+
+    glBegin(GL_LINES);
+        glVertex2f(0, way-border_bottom);
+        glVertex2f(wax, way-border_bottom);
+    glEnd();
+
+    renderText(8, way-border_bottom+14, 0, QString::fromUtf8("Вы набрали %1").arg(points), QFont());
+    renderText(wax-49, way-border_bottom+14, 0, QString::fromUtf8("FPS %1").arg(fps), QFont());
+}
+
+void GLWidget::calculate_fps()
+{
+    static int framesDone = 0;
+    static unsigned last_time = clock()/1000;
+
+    if((unsigned)clock()/1000 > last_time)
+    {
+        fps = framesDone;
+
+        framesDone = 0;
+
+        last_time = clock()/1000;
+    }
+
+    ++framesDone;
 }
