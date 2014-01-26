@@ -22,7 +22,7 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     unsigned w = this->width()-103;
     unsigned h = this->height()-22;
 
-    if(w % 10 != 0 || h % 5 != 0)
+    if(w % 10 != 0 || (h % 10 == 0 || h % 5 != 0))
     {
         w /= 10;
         w *= 10;
