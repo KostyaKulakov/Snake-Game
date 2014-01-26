@@ -15,8 +15,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private:
+    void resizeEvent(QResizeEvent *__e);
 private slots:
     void on_settingButton_clicked();
+    void resize_windows();
 
 private:
     Ui::MainWindow *ui;

@@ -28,6 +28,7 @@ public:
 protected:
     int wax ,way; // size windows
     unsigned int points = 0, fps = 0;
+    unsigned short step = 10;
     static const unsigned border_bottom = 24;
     bool isshowfps = false, isplaymusic = true;
 
