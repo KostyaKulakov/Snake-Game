@@ -30,28 +30,34 @@ void GLWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0, wax, way, 0, 1, 0);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    qglColor(Qt::gray);
+    qglColor(Qt::red);
+    renderText(-0.2, 0, 0, "Snake", QFont("Times", 30));
 
-    for(unsigned int i = 0; i < way-border_bottom; i += step)
+    glOrtho(0, wax, way, 0, 1, 0);
+
+    if(msettings->getShowmatrix())
     {
-        glBegin(GL_LINES);
-            glVertex2f(0, i);
-            glVertex2f(wax, i);
-        glEnd();
-    }
+        qglColor(Qt::gray);
 
-    for(int i = 0; i < wax; i += step)
-    {
-        glBegin(GL_LINES);
-            glVertex2f(i, 0);
-            glVertex2f(i, way-border_bottom);
-        glEnd();
-    }
+        for(unsigned int i = 0; i < way-border_bottom; i += step)
+        {
+            glBegin(GL_LINES);
+                glVertex2f(0, i);
+                glVertex2f(wax, i);
+            glEnd();
+        }
 
+        for(int i = 0; i < wax; i += step)
+        {
+            glBegin(GL_LINES);
+                glVertex2f(i, 0);
+                glVertex2f(i, way-border_bottom);
+            glEnd();
+        }
+    }
     if(msettings->getShowfps())
         calculate_fps();
 
@@ -77,7 +83,7 @@ void GLWidget::paint_interface()
         glVertex2f(wax, way-border_bottom);
     glEnd();
 
-    renderText(8, way-border_bottom+14, QString::fromUtf8("Вы набрали %1 очков").arg(points), QFont());
+    renderText(8, way-border_bottom+14, 0, QString::fromUtf8("Вы набрали %1 очков").arg(points), QFont());
 
     if(msettings->getShowfps())
         renderText(wax-49, way-border_bottom+14, 0, QString::fromUtf8("FPS %1").arg(fps), QFont());

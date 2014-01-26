@@ -8,12 +8,14 @@ public:
 
     void setShowfps(const bool enable);
     void setPlaymusic(const bool enable);
+    void setShowmatrix(const bool enable);
 
     bool getShowfps() const;
     bool getPlaymusic() const;
+    bool getShowmatrix() const;
 
 private:
-    bool showfps = false, playmusic = true;
+    bool showfps = false, playmusic = true, showmatrix = false;
 
     QSettings *fsettings;
 };

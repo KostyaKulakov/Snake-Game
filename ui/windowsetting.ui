@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>257</width>
-    <height>89</height>
+    <height>112</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -42,6 +42,13 @@
       <widget class="QCheckBox" name="issoundBox">
        <property name="text">
         <string>Звуки</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="ismatrixBox">
+       <property name="text">
+        <string>Отображать сетку</string>
        </property>
       </widget>
      </item>

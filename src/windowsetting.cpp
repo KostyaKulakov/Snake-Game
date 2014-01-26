@@ -12,6 +12,7 @@ windowSetting::windowSetting(QWidget *parent, Settings *msettings) :
 
     ui->isfpsBox->setChecked(msettings->getShowfps());
     ui->issoundBox->setChecked(msettings->getPlaymusic());
+    ui->ismatrixBox->setChecked(msettings->getShowmatrix());
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &windowSetting::save_setting);
 }
@@ -25,4 +26,5 @@ void windowSetting::save_setting()
 {
     msettings->setShowfps(ui->isfpsBox->isChecked());
     msettings->setPlaymusic(ui->issoundBox->isChecked());
+    msettings->setShowmatrix(ui->ismatrixBox->isChecked());
 }
