@@ -4,10 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT       += core gui opengl widgets
 LIBS += -LGLU -lglut
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = snake-nokia
 TEMPLATE = app
