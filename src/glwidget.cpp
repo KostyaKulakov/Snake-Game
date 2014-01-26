@@ -5,44 +5,20 @@
 GLWidget::GLWidget(QWidget *parent) :
     QGLWidget(parent)
 {
-    update_settings();
+    msettings = new Settings("config.conf");
 
     setFormat(QGLFormat(QGL::DoubleBuffer));
     glDepthFunc(GL_LEQUAL);
 
     connect(&update_timer, &QTimer::timeout, this, &GLWidget::updateGL);
     update_timer.start();
-
-    resize(640, 480);
 }
 
-void GLWidget::set_isshowfps(const bool enable)
+Settings *GLWidget::getSettings() const
 {
-    isshowfps = enable;
+    return msettings;
 }
 
-void GLWidget::set_isplaymusic(const bool enable)
-{
-    isplaymusic = enable;
-}
-
-bool GLWidget::is_showfps() const
-{
-    return isshowfps;
-}
-
-bool GLWidget::is_playmusic() const
-{
-    return isplaymusic;
-}
-
-void GLWidget::update_settings()
-{
-    QSettings *settings = new QSettings("settings.conf", QSettings::IniFormat);
-
-    set_isshowfps(settings->value("snake_interface/is_showfps", false).toBool());
-    set_isplaymusic(settings->value("snake_interface/is_playsound", true).toBool());
-}
 
 void GLWidget::initializeGL()
 {
@@ -76,7 +52,7 @@ void GLWidget::paintGL()
         glEnd();
     }
 
-    if(isshowfps)
+    if(msettings->getShowfps())
         calculate_fps();
 
     paint_interface();
@@ -103,7 +79,7 @@ void GLWidget::paint_interface()
 
     renderText(8, way-border_bottom+14, QString::fromUtf8("Вы набрали %1 очков").arg(points), QFont());
 
-    if(isshowfps)
+    if(msettings->getShowfps())
         renderText(wax-49, way-border_bottom+14, 0, QString::fromUtf8("FPS %1").arg(fps), QFont());
 }
 

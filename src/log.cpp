@@ -14,7 +14,7 @@ QString Log::getCurrentTime()
     return time;
 }
 
-void Log::push_log(QString sender, QString text, LogLevel level)
+void Log::push_log(LogLevel level, QString sender, QString text)
 {
     if(level == logError)
         QMessageBox::critical(0, sender, "ERROR: "+text);
@@ -22,17 +22,12 @@ void Log::push_log(QString sender, QString text, LogLevel level)
         QMessageBox::warning(0, sender, "Warning: "+text);
 
     QFile file;
-    file.setFileName("C:\\log.txt");
-    file.open(/*QIODevice::Append | */QIODevice::WriteOnly);
+    file.setFileName("log.txt");
+    file.open(QIODevice::WriteOnly);
     QTextStream stream;
     stream.setDevice(&file);
 
-    stream << "=========================================" << "\n";
-    stream << "time: "  << getCurrentTime()               << "\n";
-    stream << "From: "  << sender                         << "\n";
-    stream << "Level: " << level                          << "\n";
-    stream << "Msg: "   << text                           << "\n";
-    stream << "=========================================" << "\n";
+    stream << getCurrentTime() << ' '  << sender << ": " << text << "\n";
 
     file.close();
 }

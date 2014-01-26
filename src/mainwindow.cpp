@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "windowsetting.h"
-#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,7 +16,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::resizeEvent(QResizeEvent *__e)
+void MainWindow::resizeEvent(QResizeEvent *e)
 {
     unsigned w = this->width()-103;
     unsigned h = this->height()-22;
@@ -37,14 +36,7 @@ void MainWindow::resizeEvent(QResizeEvent *__e)
 
 void MainWindow::on_settingButton_clicked()
 {
-    windowSetting msetting;
+    windowSetting msetting(0, ui->glWidgetSnake->getSettings());
 
     msetting.exec();
-
-    ui->glWidgetSnake->update_settings();
-}
-
-void MainWindow::resize_windows()
-{
-
 }
