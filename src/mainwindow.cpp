@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->exitButton, &QPushButton::clicked, this, &QApplication::quit);
+    connect(ui->settingButton, &QPushButton::clicked, this, &MainWindow::opensettings);
 }
 
 MainWindow::~MainWindow()
@@ -34,7 +35,7 @@ void MainWindow::resizeEvent(QResizeEvent *e)
     }
 }
 
-void MainWindow::on_settingButton_clicked()
+void MainWindow::opensettings()
 {
     windowSetting msetting(0, ui->glWidgetSnake->getSettings());
 

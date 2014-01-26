@@ -14,7 +14,7 @@ TEMPLATE = app
 
 QMAKE_CXXFLAGS += -std=c++11
 
-INCLUDEPATH += src/ ui/ header/
+INCLUDEPATH += src/ ui/ include/
 
 SOURCES += src/main.cpp\
         src/mainwindow.cpp \
@@ -23,11 +23,11 @@ SOURCES += src/main.cpp\
     src/windowsetting.cpp \
     src/settings.cpp
 
-HEADERS  += header/mainwindow.h \
-    header/glwidget.h \
-    header/log.h \
-    header/windowsetting.h \
-    header/settings.h
+HEADERS  += include/mainwindow.h \
+    include/glwidget.h \
+    include/log.h \
+    include/windowsetting.h \
+    include/settings.h
 
 FORMS    += ui/mainwindow.ui \
     ui/windowsetting.ui
