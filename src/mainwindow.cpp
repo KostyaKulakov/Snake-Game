@@ -8,8 +8,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    connect(ui->exitButton, &QPushButton::clicked, this, &QApplication::quit);
-    connect(ui->settingButton, &QPushButton::clicked, this, &MainWindow::opensettings);
+    connect(ui->exitButton,     &QPushButton::clicked, this, &QApplication::quit);
+    connect(ui->settingButton,  &QPushButton::clicked, this, &MainWindow::opensettings);
+    connect(ui->startgameButton,&QPushButton::clicked, ui->glWidgetSnake, &GLWidget::startgame);
 }
 
 MainWindow::~MainWindow()
@@ -40,4 +41,6 @@ void MainWindow::opensettings()
     windowSetting msetting(0, ui->glWidgetSnake->getSettings());
 
     msetting.exec();
+
+    ui->glWidgetSnake->setFocus();
 }

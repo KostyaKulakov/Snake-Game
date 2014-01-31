@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl widgets
+QT       += core gui opengl widgets multimedia
 LIBS += -LGLU -lglut
 
 TARGET = snake-nokia
@@ -19,13 +19,17 @@ SOURCES += src/main.cpp\
     src/glwidget.cpp \
     src/log.cpp \
     src/windowsetting.cpp \
-    src/settings.cpp
+    src/settings.cpp \
+    src/snake.cpp \
+    src/linksnake.cpp
 
 HEADERS  += include/mainwindow.h \
     include/glwidget.h \
     include/log.h \
     include/windowsetting.h \
-    include/settings.h
+    include/settings.h \
+    include/snake.h \
+    include/linksnake.h
 
 FORMS    += ui/mainwindow.ui \
     ui/windowsetting.ui
