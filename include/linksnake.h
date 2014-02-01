@@ -37,7 +37,8 @@ public:
 
     void bounds_checking();
     void checknextdirection();
-    bool isdirection(direction dir);
+    bool isdirection(direction dir) const;
+    bool isready() const;
 
     void down();
     void up();
@@ -48,5 +49,6 @@ private:
     float x, y;
     int width, height;
     direction dir;
+    bool ready = true;
     std::vector<newDirection> ndir;
 };

@@ -4,6 +4,7 @@
 #include <QTimer>
 #include <QKeyEvent>
 #include <GL/glu.h>
+#include "database.h"
 #include <time.h>
 #include "log.h"
 #include "settings.h"
@@ -17,6 +18,7 @@ public:
     explicit GLWidget(QWidget *parent = 0);
 
     Settings *getSettings() const;
+    bool getisgame() const;
 
 private slots:
     void keyPressEvent(QKeyEvent * keyEvent);
@@ -39,10 +41,11 @@ private:
     void paint_interface();
     void paint_matrix();
     void calculate_fps();
-
     void snakeactions();
+
 
     QTimer update_timer, timer_snake;
     Settings* msettings;
     Snake* snake;
+    DataBase *mydb;
 };

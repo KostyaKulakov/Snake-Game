@@ -5,6 +5,8 @@ GLWidget::GLWidget(QWidget *parent) :
 {
     msettings = new Settings("config.conf");
 
+    srand(time(NULL));
+
     setFormat(QGLFormat(QGL::DoubleBuffer));
     glDepthFunc(GL_LEQUAL);
 
@@ -20,7 +22,7 @@ Settings *GLWidget::getSettings() const
 
 void GLWidget::keyPressEvent(QKeyEvent *keyEvent)
 {
-    if(stuck)
+    if(stuck && isgame)
     {
         stuck = false;
 
@@ -32,8 +34,8 @@ void GLWidget::keyPressEvent(QKeyEvent *keyEvent)
             snake->left();
         else if(keyEvent->key() == Qt::Key_Right)
             snake->right();
-        else if(keyEvent->key() == Qt::Key_Plus)
-            snake->generatefood();
+        else if(keyEvent->key() == Qt::Key_Escape)
+            endgame();
 
         stuck = true;
     }
@@ -86,7 +88,7 @@ void GLWidget::resizeGL(int w, int h)
     wax = w;
     way = h;
 
-    if(snake != NULL)
+    if(snake != NULL && isgame)
         snake->setmatrixsize(wax, way);
 }
 
@@ -143,6 +145,11 @@ void GLWidget::calculate_fps()
     ++framesDone;
 }
 
+bool GLWidget::getisgame() const
+{
+    return isgame;
+}
+
 void GLWidget::startgame()
 {
     points = 0;
@@ -166,6 +173,28 @@ void GLWidget::endgame()
 
     timer_snake.stop();
     delete(snake);
+
+    if(msettings->getAuthStatus())
+    {
+        mydb = new DataBase();
+
+        mydb->connect();
+
+        if(mydb->auth(msettings->getName(), msettings->getPassword()))
+        {
+            if(mydb->getrecord(mydb->getidfromname(msettings->getName())).record.toUInt() < points)
+            {
+                mydb->updaterecord(msettings->getName(), points);
+                QMessageBox::about(0, "Сохранение рекорда", "Вы поставили новый рекорд! Поздравляем!");
+            }
+        }
+        else
+                QMessageBox::about(0, "Сохранение рекорда", "Рекорд не сохранен, не верный логин или пароль");
+
+        mydb->disconnect();
+
+        delete(mydb);
+    }
 }
 
 void GLWidget::snakeactions()
@@ -173,19 +202,24 @@ void GLWidget::snakeactions()
     snake->autostep();
 
     if(snake->checkcollision())
+    {
         endgame();
+
+        return;
+    }
 
     if(snake->checkfood())
     {
         if(msettings->getPlaymusic())
             snake->playfoodmusic();
 
-        snake->generatefood();
         snake->addlink();
 
         if(snake->isbigfood())
-            points += 100;
+            points += 50 + ((rand()%200)/10)*10;
         else
             points += 10;
+
+        snake->generatefood();
     }
 }

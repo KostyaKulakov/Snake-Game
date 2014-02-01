@@ -23,7 +23,7 @@ void Log::push_log(LogLevel level, QString sender, QString text)
 
     QFile file;
     file.setFileName("log.txt");
-    file.open(QIODevice::WriteOnly);
+    file.open(QIODevice::WriteOnly | QIODevice::Append);
     QTextStream stream;
     stream.setDevice(&file);
 

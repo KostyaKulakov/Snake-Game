@@ -10,7 +10,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->exitButton,     &QPushButton::clicked, this, &QApplication::quit);
     connect(ui->settingButton,  &QPushButton::clicked, this, &MainWindow::opensettings);
+    connect(ui->recordButton,   &QPushButton::clicked, this, &MainWindow::openrecords);
+    connect(ui->regButton,      &QPushButton::clicked, this, &MainWindow::openregistration);
     connect(ui->startgameButton,&QPushButton::clicked, ui->glWidgetSnake, &GLWidget::startgame);
+    connect(ui->startgameButton,&QPushButton::clicked, this, &MainWindow::installsizepolice);
 }
 
 MainWindow::~MainWindow()
@@ -43,4 +46,29 @@ void MainWindow::opensettings()
     msetting.exec();
 
     ui->glWidgetSnake->setFocus();
+}
+
+void MainWindow::openrecords()
+{
+    Records mrecords;
+
+    mrecords.exec();
+    ui->glWidgetSnake->setFocus();
+}
+
+void MainWindow::openregistration()
+{
+    Registration mreg(0, ui->glWidgetSnake->getSettings());
+
+    mreg.exec();
+
+    ui->glWidgetSnake->setFocus();
+}
+
+void MainWindow::installsizepolice()
+{
+    setMaximumHeight(this->height());
+    setMaximumWidth(this->width());
+    setMinimumHeight(this->height());
+    setMinimumWidth(this->width());
 }

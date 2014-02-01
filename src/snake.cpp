@@ -17,7 +17,6 @@ void Snake::paint_snake()
 
 void Snake::paint_food()
 {
-
     if(currentfood.isbig)
         glColor3f(0, 1, 0);
     else
@@ -73,7 +72,7 @@ bool Snake::isbigfood() const
 
 void Snake::down()
 {
-    if(!links.at(0).isdirection(DOWN))
+    if(!links.at(0).isdirection(DOWN) || !links.at(0).isready())
         return;
 
     links.at(0).setdirection(DOWN);
@@ -89,7 +88,7 @@ void Snake::down()
 
 void Snake::up()
 {
-    if(!links.at(0).isdirection(UP))
+    if(!links.at(0).isdirection(UP) || !links.at(0).isready())
         return;
 
     links.at(0).setdirection(UP);
@@ -105,7 +104,7 @@ void Snake::up()
 
 void Snake::left()
 {
-    if(!links.at(0).isdirection(LEFT))
+    if(!links.at(0).isdirection(LEFT) || !links.at(0).isready())
         return;
 
     links.at(0).setdirection(LEFT);
@@ -121,7 +120,7 @@ void Snake::left()
 
 void Snake::right()
 {
-    if(!links.at(0).isdirection(RIGHT))
+    if(!links.at(0).isdirection(RIGHT) || !links.at(0).isready())
         return;
 
     links.at(0).setdirection(RIGHT);
@@ -152,16 +151,21 @@ void Snake::autostep()
     }
 }
 
+bool Snake::checksnake(float x, float y)
+{
+    for(size_t i = 1; i < links.size(); ++i)
+        if(x == links.at(i).getX() && y == links.at(i).getY())
+            return true;
+
+    return false;
+}
+
 bool Snake::checkcollision()
 {
     float headx = links.at(0).getX(),
           heady = links.at(0).getY();
 
-    for(size_t i = 1; i < links.size(); ++i)
-        if(headx == links.at(i).getX() && heady == links.at(i).getY())
-            return true;
-
-    return false;
+    return checksnake(headx, heady);
 }
 
 bool Snake::checkfood()
@@ -179,7 +183,9 @@ void Snake::generatefood()
 {
     srand(time(NULL));
 
-    if(cntfood == 5)
+    ++cntfood;
+
+    if(cntfood == 6)
     {
         currentfood.isbig = true;
         cntfood = 0;
@@ -187,10 +193,16 @@ void Snake::generatefood()
     else
         currentfood.isbig = false;
 
-    currentfood.x = (rand()%(width/10))*10;
-    currentfood.y = (rand() % ((height-24))/10)*10;
-    ++cntfood;
+    float newx, newy;
 
+    do
+    {
+        newx = (rand()%(width/10))*10;
+        newy = (rand() % ((height-34))/10)*10;
+    }while(checksnake(newx, newy));
+
+    currentfood.x = newx;
+    currentfood.y = newy;
 }
 
 void Snake::playfoodmusic()

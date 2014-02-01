@@ -88,6 +88,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="regButton">
+        <property name="text">
+         <string>Регистрация</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="verticalSpacer">
         <property name="orientation">
          <enum>Qt::Vertical</enum>

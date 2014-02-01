@@ -34,6 +34,7 @@ public:
 
     void autostep();
 
+    bool checksnake(float x, float y);
     bool checkcollision();
     bool checkfood();
 
@@ -46,6 +47,7 @@ private:
     std::vector<linkSnake> links;
     QSound* foodsound, *endsound;
     food currentfood;
+    bool test = true;
     unsigned cntfood = 0;
     int width, height;
 };

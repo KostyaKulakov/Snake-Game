@@ -2,6 +2,8 @@
 
 #include <QMainWindow>
 #include <QKeyEvent>
+#include "records.h"
+#include "registration.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +22,9 @@ private:
 
 private slots:
     void opensettings();
+    void openrecords();
+    void openregistration();
+    void installsizepolice();
 
 private:
     Ui::MainWindow *ui;

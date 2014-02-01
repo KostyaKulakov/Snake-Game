@@ -37,6 +37,7 @@ void linkSnake::setY(const float y)
 
 void linkSnake::setdirection(const direction dir)
 {
+    ready = false;
     this->dir = dir;
 }
 
@@ -92,7 +93,7 @@ void linkSnake::checknextdirection()
     }
 }
 
-bool linkSnake::isdirection(direction dir)
+bool linkSnake::isdirection(direction dir) const
 {
     if(this->dir == RIGHT && dir == LEFT)
         return false;
@@ -106,12 +107,19 @@ bool linkSnake::isdirection(direction dir)
     return true;
 }
 
+bool linkSnake::isready() const
+{
+    return ready;
+}
+
 void linkSnake::down()
 {
     y += 10;
 
     bounds_checking();
     checknextdirection();
+
+    ready = true;
 }
 
 void linkSnake::up()
@@ -120,6 +128,8 @@ void linkSnake::up()
 
     bounds_checking();
     checknextdirection();
+
+    ready = true;
 }
 
 void linkSnake::left()
@@ -128,6 +138,8 @@ void linkSnake::left()
 
     bounds_checking();
     checknextdirection();
+
+    ready = true;
 }
 
 void linkSnake::right()
@@ -136,4 +148,6 @@ void linkSnake::right()
 
     bounds_checking();
     checknextdirection();
+
+    ready = true;
 }
