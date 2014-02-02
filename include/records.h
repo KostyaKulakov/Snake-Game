@@ -12,7 +12,7 @@ class Records : public QDialog
     Q_OBJECT
 
 public:
-    explicit Records(QWidget *parent = 0);
+    explicit Records(QWidget *parent = 0, DataBase *db = 0);
     ~Records();
 
 private:

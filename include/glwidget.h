@@ -15,10 +15,11 @@ class GLWidget : public QGLWidget
     Q_OBJECT
 
 public:
-    explicit GLWidget(QWidget *parent = 0);
+    explicit GLWidget(QWidget *parent = 0, DataBase *db = 0);
 
     Settings *getSettings() const;
     bool getisgame() const;
+    void setdb(DataBase *db);
 
 private slots:
     void keyPressEvent(QKeyEvent * keyEvent);
@@ -43,9 +44,8 @@ private:
     void calculate_fps();
     void snakeactions();
 
-
     QTimer update_timer, timer_snake;
     Settings* msettings;
     Snake* snake;
-    DataBase *mydb;
+    DataBase* mydb;
 };

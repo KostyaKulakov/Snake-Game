@@ -5,16 +5,14 @@
 #include <QSqlQuery>
 #include <QTableView>
 
-Records::Records(QWidget *parent) :
+Records::Records(QWidget *parent, DataBase *db) :
     QDialog(parent),
     ui(new Ui::Records)
 {
     this->setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
 
-    mydb = new DataBase();
-
-    mydb->connect();
+    this->mydb = db;
 
     std::vector<Recordtable> rcv = mydb->getrecordtable();
 
@@ -29,10 +27,6 @@ Records::Records(QWidget *parent) :
         ui->tableWidget->setItem(ui->tableWidget->rowCount()-1, 1, record);
 
     }
-
-    mydb->disconnect();
-
-    delete(mydb);
 }
 
 Records::~Records()

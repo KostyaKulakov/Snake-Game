@@ -1,10 +1,11 @@
 #include "registration.h"
 #include "ui_windowregistration.h"
 
-Registration::Registration(QWidget *parent, Settings *msettings) :
+Registration::Registration(QWidget *parent, Settings *msettings, DataBase *db) :
     QDialog(parent),
     ui(new Ui::Registration)
 {
+    this->mydb = db;
     this->msettings = msettings;
     this->setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
@@ -18,7 +19,6 @@ Registration::Registration(QWidget *parent, Settings *msettings) :
 
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &Registration::login);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &Registration::hide);
-
 }
 
 Registration::~Registration()
@@ -28,9 +28,6 @@ Registration::~Registration()
 
 void Registration::login()
 {
-    mydb = new DataBase();
-    mydb->connect();
-
     if(ui->isRegistry->isChecked())
     {
         if(mydb->auth(ui->loginline->text(), ui->passwordline->text()))
@@ -73,7 +70,4 @@ void Registration::login()
         else
             QMessageBox::about(0, "Создание Аккаунта", "Логни должен иметь хотябы 3 символа");
     }
-
-    mydb->disconnect();
-    delete(mydb);
 }

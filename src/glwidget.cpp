@@ -1,8 +1,9 @@
 #include "glwidget.h"
 
-GLWidget::GLWidget(QWidget *parent) :
+GLWidget::GLWidget(QWidget *parent, DataBase *db) :
     QGLWidget(parent)
 {
+    mydb = db;
     msettings = new Settings("config.conf");
 
     srand(time(NULL));
@@ -12,7 +13,7 @@ GLWidget::GLWidget(QWidget *parent) :
 
     connect(&update_timer, &QTimer::timeout, this, &GLWidget::updateGL);
     connect(&timer_snake,  &QTimer::timeout, this, &GLWidget::snakeactions);
-    update_timer.start();
+    update_timer.start(15);
 }
 
 Settings *GLWidget::getSettings() const
@@ -176,10 +177,6 @@ void GLWidget::endgame()
 
     if(msettings->getAuthStatus())
     {
-        mydb = new DataBase();
-
-        mydb->connect();
-
         if(mydb->auth(msettings->getName(), msettings->getPassword()))
         {
             if(mydb->getrecord(mydb->getidfromname(msettings->getName())).record.toUInt() < points)
@@ -190,10 +187,6 @@ void GLWidget::endgame()
         }
         else
                 QMessageBox::about(0, "Сохранение рекорда", "Рекорд не сохранен, не верный логин или пароль");
-
-        mydb->disconnect();
-
-        delete(mydb);
     }
 }
 
@@ -222,4 +215,9 @@ void GLWidget::snakeactions()
 
         snake->generatefood();
     }
+}
+
+void GLWidget::setdb(DataBase *db)
+{
+    this->mydb = db;
 }

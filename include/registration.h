@@ -13,7 +13,7 @@ class Registration : public QDialog
     Q_OBJECT
 
 public:
-    explicit Registration(QWidget *parent = 0, Settings *msettings = 0);
+    explicit Registration(QWidget *parent = 0, Settings *msettings = 0, DataBase *db = 0);
     ~Registration();
 
 private slots:

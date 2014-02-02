@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <QKeyEvent>
 #include "records.h"
+#include "database.h"
 #include "registration.h"
 
 namespace Ui {
@@ -28,4 +29,5 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    DataBase *mydb;
 };

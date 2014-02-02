@@ -6,7 +6,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    mydb = new DataBase();
+    mydb->connect();
+
     ui->setupUi(this);
+
+    ui->glWidgetSnake->setdb(mydb);
 
     connect(ui->exitButton,     &QPushButton::clicked, this, &QApplication::quit);
     connect(ui->settingButton,  &QPushButton::clicked, this, &MainWindow::opensettings);
@@ -18,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete mydb;
     delete ui;
 }
 
@@ -50,7 +56,7 @@ void MainWindow::opensettings()
 
 void MainWindow::openrecords()
 {
-    Records mrecords;
+    Records mrecords(0, mydb);
 
     mrecords.exec();
     ui->glWidgetSnake->setFocus();
@@ -58,7 +64,7 @@ void MainWindow::openrecords()
 
 void MainWindow::openregistration()
 {
-    Registration mreg(0, ui->glWidgetSnake->getSettings());
+    Registration mreg(0, ui->glWidgetSnake->getSettings(), mydb);
 
     mreg.exec();
 
