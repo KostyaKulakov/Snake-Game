@@ -28,13 +28,13 @@ void GLWidget::keyPressEvent(QKeyEvent *keyEvent)
         stuck = false;
 
         if(keyEvent->key() == Qt::Key_Up)
-            snake->up();
+            snake->move(UP);
         else if(keyEvent->key() == Qt::Key_Down)
-            snake->down();
+            snake->move(DOWN);
         else if(keyEvent->key() == Qt::Key_Left)
-            snake->left();
+            snake->move(LEFT);
         else if(keyEvent->key() == Qt::Key_Right)
-            snake->right();
+            snake->move(RIGHT);
         else if(keyEvent->key() == Qt::Key_Escape)
             endgame();
 

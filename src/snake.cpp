@@ -70,65 +70,17 @@ bool Snake::isbigfood() const
     return currentfood.isbig;
 }
 
-void Snake::down()
+void Snake::move(direction dir)
 {
-    if(!links.at(0).isdirection(DOWN) || !links.at(0).isready())
+    if(!links.at(0).isdirection(dir) || !links.at(0).isready())
         return;
 
-    links.at(0).setdirection(DOWN);
+    links.at(0).setdirection(dir);
 
     newDirection nxdir;
     nxdir.nextx = links.at(0).getX();
     nxdir.nexty = links.at(0).getY();
-    nxdir.nextdir = DOWN;
-
-    for(size_t i = 1; i < links.size(); ++i)
-        links.at(i).setnextdirection(nxdir);
-}
-
-void Snake::up()
-{
-    if(!links.at(0).isdirection(UP) || !links.at(0).isready())
-        return;
-
-    links.at(0).setdirection(UP);
-
-    newDirection nxdir;
-    nxdir.nextx = links.at(0).getX();
-    nxdir.nexty = links.at(0).getY();
-    nxdir.nextdir = UP;
-
-    for(size_t i = 1; i < links.size(); ++i)
-        links.at(i).setnextdirection(nxdir);
-}
-
-void Snake::left()
-{
-    if(!links.at(0).isdirection(LEFT) || !links.at(0).isready())
-        return;
-
-    links.at(0).setdirection(LEFT);
-
-    newDirection nxdir;
-    nxdir.nextx = links.at(0).getX();
-    nxdir.nexty = links.at(0).getY();
-    nxdir.nextdir = LEFT;
-
-    for(size_t i = 1; i < links.size(); ++i)
-        links.at(i).setnextdirection(nxdir);
-}
-
-void Snake::right()
-{
-    if(!links.at(0).isdirection(RIGHT) || !links.at(0).isready())
-        return;
-
-    links.at(0).setdirection(RIGHT);
-
-    newDirection nxdir;
-    nxdir.nextx = links.at(0).getX();
-    nxdir.nexty = links.at(0).getY();
-    nxdir.nextdir = RIGHT;
+    nxdir.nextdir = dir;
 
     for(size_t i = 1; i < links.size(); ++i)
         links.at(i).setnextdirection(nxdir);

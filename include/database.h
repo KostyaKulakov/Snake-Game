@@ -29,7 +29,7 @@ public:
 private:
     QSqlDatabase db;
     const QString hostname = "82.146.52.29";
-    const unsigned    port     = 3306;
+    const unsigned port    =  3306;
     const QString dbname   = "records";
     const QString user     = "programm";
     const QString password = "programm";

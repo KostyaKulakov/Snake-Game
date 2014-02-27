@@ -27,11 +27,7 @@ public:
 
     bool isbigfood() const;
 
-    void down();
-    void up();
-    void left();
-    void right();
-
+    void move(direction dir);
     void autostep();
 
     bool checksnake(float x, float y);
